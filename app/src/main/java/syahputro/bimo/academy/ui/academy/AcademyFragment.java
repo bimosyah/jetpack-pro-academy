@@ -1,4 +1,4 @@
-package syahputro.bimo.academy.reader.list;
+package syahputro.bimo.academy.ui.academy;
 
 
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import syahputro.bimo.academy.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ModuleListFragment extends Fragment {
+public class AcademyFragment extends Fragment {
 
 
-    public ModuleListFragment() {
+    public AcademyFragment() {
         // Required empty public constructor
     }
 
@@ -26,7 +26,7 @@ public class ModuleListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_module_list, container, false);
+        return inflater.inflate(R.layout.fragment_academy, container, false);
     }
 
 }

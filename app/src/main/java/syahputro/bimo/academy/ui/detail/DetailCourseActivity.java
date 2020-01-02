@@ -1,4 +1,4 @@
-package syahputro.bimo.academy.detail;
+package syahputro.bimo.academy.ui.detail;
 
 import android.os.Bundle;
 

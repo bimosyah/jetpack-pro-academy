@@ -1,4 +1,4 @@
-package syahputro.bimo.academy.reader;
+package syahputro.bimo.academy.ui.reader;
 
 import androidx.appcompat.app.AppCompatActivity;
 

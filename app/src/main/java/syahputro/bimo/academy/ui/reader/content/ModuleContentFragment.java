@@ -1,4 +1,4 @@
-package syahputro.bimo.academy.reader.content;
+package syahputro.bimo.academy.ui.reader.content;
 
 
 import android.os.Bundle;
