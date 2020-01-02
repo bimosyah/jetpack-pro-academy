@@ -1,4 +1,4 @@
-package syahputro.bimo.academy;
+package syahputro.bimo.academy.home;
 
 import android.os.Bundle;
 
@@ -9,6 +9,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import syahputro.bimo.academy.R;
 
 public class HomeActivity extends AppCompatActivity {
 
