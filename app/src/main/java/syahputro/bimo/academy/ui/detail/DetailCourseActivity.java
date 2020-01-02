@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,8 +21,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.List;
+
 import syahputro.bimo.academy.R;
 import syahputro.bimo.academy.data.CourseEntity;
+import syahputro.bimo.academy.data.ModuleEntity;
 import syahputro.bimo.academy.ui.reader.CourseReaderActivity;
 import syahputro.bimo.academy.utils.DataDummy;
 
@@ -36,6 +40,8 @@ public class DetailCourseActivity extends AppCompatActivity {
     private DetailCourseAdapter adapter;
     private ImageView imagePoster;
     private ProgressBar progressBar;
+    private DetailCourseViewModel viewModel;
+    private List<ModuleEntity> modules;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class DetailCourseActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        viewModel = ViewModelProviders.of(this).get(DetailCourseViewModel.class);
 
         adapter = new DetailCourseAdapter();
 
@@ -62,11 +69,16 @@ public class DetailCourseActivity extends AppCompatActivity {
         if (extras != null) {
             String courseId = extras.getString(EXTRA_COURSE);
             if (courseId != null) {
-                adapter.setModules(DataDummy.generateDummyModules(courseId));
-
-                populateCourse(courseId);
+                viewModel.setCourseId(courseId);
+                modules = viewModel.getModules();
+                adapter.setModules(modules);
             }
         }
+
+        if (viewModel.getCourse() != null) {
+            populateCourse(viewModel.getCourse());
+        }
+
 
         rvModule.setNestedScrollingEnabled(false);
         rvModule.setLayoutManager(new LinearLayoutManager(this));
@@ -77,8 +89,7 @@ public class DetailCourseActivity extends AppCompatActivity {
 
     }
 
-    private void populateCourse(String courseId) {
-        CourseEntity courseEntity = DataDummy.getCourse(courseId);
+    private void populateCourse(CourseEntity courseEntity) {
         textTitle.setText(courseEntity.getTitle());
         textDesc.setText(courseEntity.getDescription());
         textDate.setText(String.format("Deadline %s", courseEntity.getDeadline()));
@@ -90,7 +101,7 @@ public class DetailCourseActivity extends AppCompatActivity {
 
         btnStart.setOnClickListener(v -> {
             Intent intent = new Intent(DetailCourseActivity.this, CourseReaderActivity.class);
-            intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, courseId);
+            intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, viewModel.getCourseId());
             v.getContext().startActivity(intent);
         });
     }
