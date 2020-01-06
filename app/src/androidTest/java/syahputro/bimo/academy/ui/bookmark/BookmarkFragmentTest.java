@@ -1,13 +1,16 @@
 package syahputro.bimo.academy.ui.bookmark;
 
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import syahputro.bimo.academy.R;
 import syahputro.bimo.academy.testing.SingleFragmentActivity;
+import syahputro.bimo.academy.utils.EspressoIdlingResource;
 import syahputro.bimo.academy.utils.RecyclerViewItemCountAssertion;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -23,7 +26,13 @@ public class BookmarkFragmentTest {
 
     @Before
     public void setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
         activityRule.getActivity().setFragment(bookmarkFragment);
+    }
+
+    @After
+    public void tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
     }
 
     @Test

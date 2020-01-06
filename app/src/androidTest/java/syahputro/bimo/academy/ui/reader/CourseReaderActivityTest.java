@@ -3,15 +3,19 @@ package syahputro.bimo.academy.ui.reader;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import syahputro.bimo.academy.R;
 import syahputro.bimo.academy.data.CourseEntity;
+import syahputro.bimo.academy.utils.EspressoIdlingResource;
 import syahputro.bimo.academy.utils.FakeDataDummy;
 import syahputro.bimo.academy.utils.RecyclerViewItemCountAssertion;
 
@@ -34,6 +38,17 @@ public class CourseReaderActivityTest {
             return result;
         }
     };
+
+    @Before
+    public void setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
+    }
+
+    @After
+    public void tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
+    }
+
 
     @Test
     public void loadModules() {

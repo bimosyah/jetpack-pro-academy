@@ -7,6 +7,7 @@ import java.util.List;
 import syahputro.bimo.academy.data.source.remote.response.ContentResponse;
 import syahputro.bimo.academy.data.source.remote.response.CourseResponse;
 import syahputro.bimo.academy.data.source.remote.response.ModuleResponse;
+import syahputro.bimo.academy.utils.EspressoIdlingResource;
 import syahputro.bimo.academy.utils.JsonHelper;
 
 public class RemoteRepository {
@@ -26,18 +27,30 @@ public class RemoteRepository {
     }
 
     public void getAllCourses(LoadCoursesCallback callback) {
+        EspressoIdlingResource.increment();
         Handler handler = new Handler();
-        handler.postDelayed(() -> callback.onAllCoursesReceived(jsonHelper.loadCourses()), SERVICE_LATENCY_IN_MILLIS);
+        handler.postDelayed(() -> {
+            callback.onAllCoursesReceived(jsonHelper.loadCourses());
+            EspressoIdlingResource.decrement();
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
 
     public void getModules(String courseId, LoadModulesCallback callback) {
+        EspressoIdlingResource.increment();
         Handler handler = new Handler();
-        handler.postDelayed(() -> callback.onAllModulesReceived(jsonHelper.loadModule(courseId)), SERVICE_LATENCY_IN_MILLIS);
+        handler.postDelayed(() -> {
+            callback.onAllModulesReceived(jsonHelper.loadModule(courseId));
+            EspressoIdlingResource.decrement();
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
 
     public void getContent(String moduleId, GetContentCallback callback) {
+        EspressoIdlingResource.increment();
         Handler handler = new Handler();
-        handler.postDelayed(() -> callback.onContentReceived(jsonHelper.loadContent(moduleId)), SERVICE_LATENCY_IN_MILLIS);
+        handler.postDelayed(() -> {
+            callback.onContentReceived(jsonHelper.loadContent(moduleId));
+            EspressoIdlingResource.decrement();
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
 
     public interface LoadCoursesCallback {
