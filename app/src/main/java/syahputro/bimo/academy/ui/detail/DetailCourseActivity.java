@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,6 +29,7 @@ import syahputro.bimo.academy.data.CourseEntity;
 import syahputro.bimo.academy.data.ModuleEntity;
 import syahputro.bimo.academy.ui.reader.CourseReaderActivity;
 import syahputro.bimo.academy.utils.DataDummy;
+import syahputro.bimo.academy.viewmodel.ViewModelFactory;
 
 public class DetailCourseActivity extends AppCompatActivity {
 
@@ -52,7 +54,7 @@ public class DetailCourseActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        viewModel = ViewModelProviders.of(this).get(DetailCourseViewModel.class);
+        viewModel = obtainViewModel(this);
 
         adapter = new DetailCourseAdapter();
 
@@ -106,6 +108,12 @@ public class DetailCourseActivity extends AppCompatActivity {
         });
     }
 
+    @NonNull
+    private static DetailCourseViewModel obtainViewModel(AppCompatActivity activity) {
+        // Use a Factory to inject dependencies into the ViewModel
+        ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
 
+        return ViewModelProviders.of(activity, factory).get(DetailCourseViewModel.class);
+    }
 
 }

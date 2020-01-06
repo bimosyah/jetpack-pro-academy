@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import java.util.List;
 import syahputro.bimo.academy.R;
 import syahputro.bimo.academy.data.CourseEntity;
 import syahputro.bimo.academy.utils.DataDummy;
+import syahputro.bimo.academy.viewmodel.ViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +74,7 @@ public class BookmarkFragment extends Fragment implements BookmarkFragmentCallba
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            viewModel = ViewModelProviders.of(this).get(BookmarkViewModel.class);
+            viewModel = obtainViewModel(getActivity());
             courses = viewModel.getBookmarks();
 
             adapter = new BookmarkAdapter(getActivity(), this);
@@ -84,4 +86,10 @@ public class BookmarkFragment extends Fragment implements BookmarkFragmentCallba
         }
     }
 
+    @NonNull
+    private static BookmarkViewModel obtainViewModel(FragmentActivity activity) {
+        // Use a Factory to inject dependencies into the ViewModel
+        ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
+        return ViewModelProviders.of(activity, factory).get(BookmarkViewModel.class);
+    }
 }

@@ -3,19 +3,19 @@ package syahputro.bimo.academy.ui.reader.list;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import syahputro.bimo.academy.data.ModuleEntity;
 import syahputro.bimo.academy.ui.reader.CourseReaderActivity;
 import syahputro.bimo.academy.ui.reader.CourseReaderCallback;
 import syahputro.bimo.academy.ui.reader.CourseReaderViewModel;
-import syahputro.bimo.academy.utils.DataDummy;
+import syahputro.bimo.academy.viewmodel.ViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +46,13 @@ public class ModuleListFragment extends Fragment implements MyAdapterClickListen
         return new ModuleListFragment();
     }
 
+    @NonNull
+    private static CourseReaderViewModel obtainViewModel(FragmentActivity activity) {
+        // Use a Factory to inject dependencies into the ViewModel
+        ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
+
+        return ViewModelProviders.of(activity, factory).get(CourseReaderViewModel.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +72,7 @@ public class ModuleListFragment extends Fragment implements MyAdapterClickListen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            viewModel = ViewModelProviders.of(getActivity()).get(CourseReaderViewModel.class);
+            viewModel = obtainViewModel(getActivity());
             adapter = new ModuleListAdapter(this);
             populateRecyclerView(viewModel.getModules());
         }
@@ -92,5 +99,4 @@ public class ModuleListFragment extends Fragment implements MyAdapterClickListen
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
-
 }

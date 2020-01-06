@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import java.util.List;
 import syahputro.bimo.academy.R;
 import syahputro.bimo.academy.data.CourseEntity;
 import syahputro.bimo.academy.utils.DataDummy;
+import syahputro.bimo.academy.viewmodel.ViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,7 +61,7 @@ public class AcademyFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            viewModel = ViewModelProviders.of(this).get(AcademyViewModel.class);
+            viewModel = obtainViewModel(getActivity());
             courses = viewModel.getCourses();
 
             academyAdapter = new AcademyAdapter(getActivity());
@@ -70,5 +72,10 @@ public class AcademyFragment extends Fragment {
         }
     }
 
-
+    @NonNull
+    private static AcademyViewModel obtainViewModel(FragmentActivity activity) {
+        // Use a Factory to inject dependencies into the ViewModel
+        ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
+        return ViewModelProviders.of(activity, factory).get(AcademyViewModel.class);
+    }
 }

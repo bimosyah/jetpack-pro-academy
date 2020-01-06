@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import syahputro.bimo.academy.R;
 import syahputro.bimo.academy.data.ContentEntity;
 import syahputro.bimo.academy.data.ModuleEntity;
 import syahputro.bimo.academy.ui.reader.CourseReaderViewModel;
+import syahputro.bimo.academy.viewmodel.ViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,7 +59,7 @@ public class ModuleContentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            viewModel = ViewModelProviders.of(getActivity()).get(CourseReaderViewModel.class);
+            viewModel = obtainViewModel(getActivity());
             ModuleEntity module = viewModel.getSelectedModule();
             populateWebView(module);
         }
@@ -65,6 +67,14 @@ public class ModuleContentFragment extends Fragment {
 
     private void populateWebView(ModuleEntity  content) {
         webView.loadData(content.contentEntity.getContent(), "text/html", "UTF-8");
+    }
+
+    @NonNull
+    private static CourseReaderViewModel obtainViewModel(FragmentActivity activity) {
+        // Use a Factory to inject dependencies into the ViewModel
+        ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
+
+        return ViewModelProviders.of(activity, factory).get(CourseReaderViewModel.class);
     }
 
 }
