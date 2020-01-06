@@ -38,6 +38,11 @@ public class DetailCourseActivityTest {
 
     @Test
     public void loadCourse() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.text_title)).check(matches(isDisplayed()));
         onView(withId(R.id.text_title)).check(matches(withText(dummyCourse.getTitle())));
         onView(withId(R.id.text_date)).check(matches(isDisplayed()));
@@ -46,6 +51,11 @@ public class DetailCourseActivityTest {
 
     @Test
     public void loadModules() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.rv_module)).check(matches(isDisplayed()));
         onView(withId(R.id.rv_module)).check(new RecyclerViewItemCountAssertion(7));
     }

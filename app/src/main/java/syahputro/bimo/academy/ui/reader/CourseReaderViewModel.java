@@ -1,8 +1,10 @@
 package syahputro.bimo.academy.ui.reader;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import syahputro.bimo.academy.data.ContentEntity;
 import syahputro.bimo.academy.data.ModuleEntity;
@@ -19,7 +21,7 @@ public class CourseReaderViewModel extends ViewModel {
         this.academyRepository = mAcademyRepository;
     }
 
-    public ArrayList<ModuleEntity> getModules() {
+    public LiveData<List<ModuleEntity>> getModules() {
         return academyRepository.getAllModulesByCourse(courseId);
     }
 
@@ -27,7 +29,7 @@ public class CourseReaderViewModel extends ViewModel {
         this.courseId = courseId;
     }
 
-    public ModuleEntity getSelectedModule() {
+    public LiveData<ModuleEntity> getSelectedModule() {
         return academyRepository.getContent(courseId, moduleId);
     }
 

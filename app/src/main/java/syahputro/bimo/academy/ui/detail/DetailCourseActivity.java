@@ -71,15 +71,22 @@ public class DetailCourseActivity extends AppCompatActivity {
         if (extras != null) {
             String courseId = extras.getString(EXTRA_COURSE);
             if (courseId != null) {
+                progressBar.setVisibility(View.VISIBLE);
                 viewModel.setCourseId(courseId);
-                modules = viewModel.getModules();
-                adapter.setModules(modules);
             }
         }
 
-        if (viewModel.getCourse() != null) {
-            populateCourse(viewModel.getCourse());
-        }
+        viewModel.getModules().observe(this, moduleEntities -> {
+            progressBar.setVisibility(View.GONE);
+            adapter.setModules(moduleEntities);
+            adapter.notifyDataSetChanged();
+        });
+
+        viewModel.getCourse().observe(this, courseEntity -> {
+            if (courseEntity != null) {
+                populateCourse(courseEntity);
+            }
+        });
 
 
         rvModule.setNestedScrollingEnabled(false);
